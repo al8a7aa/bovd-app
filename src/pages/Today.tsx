@@ -114,7 +114,7 @@ export default function Today({ go, openTrend }: Props) {
                   {status}
                   {a?.unusual && <span className="block text-xs text-muted">{tr('Unusual for you')}</span>}
                 </span>
-                <ChevronRight size={16} className="text-muted rtl:rotate-180" aria-hidden />
+                <ChevronRight size={16} className="text-muted" aria-hidden />
               </button>
             </li>
           )

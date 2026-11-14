@@ -21,11 +21,11 @@ export interface HelperModel {
   vramGB: number
 }
 
-/** Plain instruction models (no "thinking" text) from one family that handles Arabic. Ids come from web-llm's model list. */
+/** Plain instruction models (no "thinking" text) from one family. Ids come from web-llm's model list. */
 export const MODELS: HelperModel[] = [
   { id: 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC', name: 'Small', note: 'Fastest. Runs on most laptops.', downloadGB: 1, vramGB: 1.6 },
   { id: 'Qwen2.5-3B-Instruct-q4f16_1-MLC', name: 'Medium', note: 'Better answers. Needs a real graphics card.', downloadGB: 2, vramGB: 2.5 },
-  { id: 'Qwen2.5-7B-Instruct-q4f16_1-MLC', name: 'Large', note: 'Best answers and best Arabic. Needs a strong graphics card.', downloadGB: 4.5, vramGB: 5.1 },
+  { id: 'Qwen2.5-7B-Instruct-q4f16_1-MLC', name: 'Large', note: 'Best answers. Needs a strong graphics card.', downloadGB: 4.5, vramGB: 5.1 },
 ]
 
 const MODEL_SLOT = 'bovd-helper-model'
@@ -78,7 +78,7 @@ export interface Turn {
 }
 
 /** Hands the model the rule engine's results and forbids it from adding medical advice of its own. */
-export function systemPrompt(report: string, alerts: Alert[], lang: 'en' | 'ar'): string {
+export function systemPrompt(report: string, alerts: Alert[]): string {
   const steps = alerts
     .map((a) => `${a.title}:\n${a.doNow.map((s) => `- ${s.text}`).join('\n')}\nWho to tell: ${a.escalate}`)
     .join('\n\n')
@@ -91,7 +91,7 @@ export function systemPrompt(report: string, alerts: Alert[], lang: 'en' | 'ar')
     '3. When asked what to do, repeat the steps listed under "Steps the app recommends". Do not add new medical steps.',
     '4. If the question is not answered by the report, or you are unsure, say so and tell the astronaut to ask the crew medical officer or the flight surgeon.',
     '5. Keep each answer under 120 words. Use short sentences.',
-    `6. Answer in ${lang === 'ar' ? 'Arabic' : 'English'}.`,
+    '6. Answer in English.',
     '',
     '--- HEALTH REPORT ---',
     report,

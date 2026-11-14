@@ -123,13 +123,14 @@ export interface Task {
   time: string
   label: string
   detail: string
-  /** done automatically when today's health check is saved */
-  auto?: 'checkin'
+  /** done automatically when today's health check, or today's reaction test, is saved */
+  auto?: 'checkin' | 'reaction'
 }
 
 /** One mission day: work, exercise, then a protected sleep period. */
 export const SCHEDULE: Task[] = [
   { id: 'check', time: '07:00', label: 'Morning health check', detail: 'Before breakfast, so blood sugar is a fasting reading.', auto: 'checkin' },
+  { id: 'react', time: '07:15', label: 'Reaction self-test', detail: 'One minute. Shows if tiredness is slowing you.', auto: 'reaction' },
   { id: 'water1', time: '09:30', label: 'Drink 500 ml of water', detail: 'Thirst is weak in space. Drink by the clock.' },
   { id: 'cardio', time: '10:30', label: 'Cardio session', detail: 'Treadmill or cycle, 45 minutes.' },
   { id: 'water2', time: '13:30', label: 'Drink 500 ml of water', detail: 'With your midday meal.' },

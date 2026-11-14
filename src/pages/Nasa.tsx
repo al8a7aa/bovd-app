@@ -24,10 +24,10 @@ function Rows({ items, note }: { items: Link[]; note?: (i: Link) => string | und
       {items.map((i) => (
         <li key={i.name} className={`px-4 py-3 ${ROW}`}>
           <div className="flex items-start justify-between gap-3">
-            <span className="font-medium" dir="ltr">{i.name}</span>
+            <span className="font-medium">{i.name}</span>
             <CoverageTag coverage={i.coverage} />
           </div>
-          {note?.(i) && <div className="font-mono text-xs text-muted" dir="ltr">{note(i)}</div>}
+          {note?.(i) && <div className="font-mono text-xs text-muted">{note(i)}</div>}
           <p className="mt-1 text-sm text-muted">{tr(i.how)}</p>
         </li>
       ))}
@@ -55,9 +55,9 @@ export default function Nasa() {
       <ul className={`grid sm:grid-cols-2 ${LIST}`}>
         {NUMBERS.map((n) => (
           <li key={n.value} className="border-b border-line px-4 py-3">
-            <div className="font-mono text-xl font-semibold text-accent" dir="ltr">{n.value}</div>
+            <div className="font-mono text-xl font-semibold text-accent">{n.value}</div>
             <p className="text-sm">{tr(n.what)}</p>
-            <p className="mt-0.5 text-xs text-muted" dir="ltr">{n.source}</p>
+            <p className="mt-0.5 text-xs text-muted">{n.source}</p>
           </li>
         ))}
       </ul>
@@ -89,7 +89,7 @@ export default function Nasa() {
       <ul className={LIST}>
         {RESEARCH.map((r) => (
           <li key={r.name} className={`px-4 py-3 ${ROW}`}>
-            <div className="font-medium" dir="ltr">{r.name}</div>
+            <div className="font-medium">{r.name}</div>
             <p className="mt-1 text-sm text-muted">{tr(r.what)}</p>
             <p className="mt-1 text-sm"><span className="text-muted">{tr('In the app:')} </span>{tr(r.ours)}</p>
           </li>
@@ -107,7 +107,7 @@ export default function Nasa() {
       </Card>
 
       <SectionTitle>{tr('Sources')}</SectionTitle>
-      <ul className={LIST} dir="ltr">
+      <ul className={LIST}>
         {SOURCES.map((s) => (
           <li key={s.url} className={ROW}>
             <a href={s.url} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center px-4 py-2 text-sm text-accent underline underline-offset-4">

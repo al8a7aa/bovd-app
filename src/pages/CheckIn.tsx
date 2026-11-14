@@ -85,7 +85,7 @@ export default function CheckIn({ go }: { go: (p: Page) => void }) {
 
   const back = (
     <button onClick={() => setStep(step - 1)} disabled={step === 0} className={BTN_QUIET}>
-      <ArrowLeft size={16} className="rtl:rotate-180" aria-hidden /> {tr('Back')}
+      <ArrowLeft size={16} aria-hidden /> {tr('Back')}
     </button>
   )
 
@@ -110,7 +110,7 @@ export default function CheckIn({ go }: { go: (p: Page) => void }) {
             <p className="mt-2 text-sm text-muted">{tr(ind.why)}</p>
             <h3 className={`mt-4 ${LABEL}`}>{tr('What NASA says')}</h3>
             <p className="mt-2 text-sm text-muted">{tr(ind.nasa)}</p>
-            <p className="mt-1 text-xs text-muted" dir="ltr">{ind.nasaSource}</p>
+            <p className="mt-1 text-xs text-muted">{ind.nasaSource}</p>
           </Card>
 
           <Card className="flex flex-col">
@@ -131,8 +131,7 @@ export default function CheckIn({ go }: { go: (p: Page) => void }) {
               </div>
             ) : (
               <>
-                {/* numbers and sliders stay left-to-right in both languages */}
-                <div className="mt-3 flex items-center gap-3" dir="ltr">
+                                <div className="mt-3 flex items-center gap-3">
                   <button onClick={() => set(values[ind.id] - ind.step)} aria-label={tr('Decrease')} className="grid size-11 shrink-0 place-items-center rounded-md border border-line bg-panel2">
                     <Minus size={18} aria-hidden />
                   </button>
@@ -156,7 +155,7 @@ export default function CheckIn({ go }: { go: (p: Page) => void }) {
                 </div>
                 <input
                   type="range"
-                  dir="ltr"
+                 
                   aria-label={tr(ind.name)}
                   value={values[ind.id]}
                   min={ind.min}
@@ -185,7 +184,7 @@ export default function CheckIn({ go }: { go: (p: Page) => void }) {
               <div className="flex gap-2">
                 <button onClick={skip} className="min-h-11 px-3 text-sm text-muted hover:text-ink">{tr('Not measured')}</button>
                 <button onClick={() => setStep(step + 1)} className={BTN_PRIMARY}>
-                  {tr('Next')} <ArrowRight size={16} className="rtl:rotate-180" aria-hidden />
+                  {tr('Next')} <ArrowRight size={16} aria-hidden />
                 </button>
               </div>
             </div>

@@ -43,7 +43,7 @@ export default function Mission() {
               </div>
               <p className="mt-1 text-sm text-muted">{tr(p.note)}</p>
               <dl className="mt-3 grid grid-cols-3 gap-2 text-xs">
-                <div><dt className="text-muted">{tr('Gravity')}</dt><dd className="mt-0.5 font-mono" dir="ltr">{p.gravity}</dd></div>
+                <div><dt className="text-muted">{tr('Gravity')}</dt><dd className="mt-0.5 font-mono">{p.gravity}</dd></div>
                 <div><dt className="text-muted">{tr('Signal delay')}</dt><dd className="mt-0.5">{delayText(p)}</dd></div>
                 <div><dt className="text-muted">{tr('Return to Earth')}</dt><dd className="mt-0.5">{tr(p.returnTime)}</dd></div>
               </dl>
@@ -96,7 +96,7 @@ export default function Mission() {
         <p className="mt-2 text-muted">{tr('Signal delay uses the Earth–Mars distance from Kepler’s equation, solved with Newton’s method.')}</p>
         <p className="mt-2 text-muted">{tr('The code was written with an AI coding assistant (Claude Code), under the team’s direction.')}</p>
         <p className="mt-3 text-muted">{tr('Built on these NASA sources, with medical references only where NASA gives no number:')}</p>
-        <ul className="mt-1 list-disc space-y-0.5 ps-5 text-muted" dir="ltr">
+        <ul className="mt-1 list-disc space-y-0.5 ps-5 text-muted">
           {sources.map((s) => (
             <li key={s}>{s}</li>
           ))}

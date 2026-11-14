@@ -130,3 +130,25 @@ describe('NASA basis', () => {
     expect(buildAlerts(e, 10, PLACE.station).map((a) => a.id)).toContain('dehydration')
   })
 })
+
+describe('reaction test', () => {
+  it('summarises a test: middle time, slow responses, early taps', async () => {
+    const { summarize } = await import('./reaction')
+    expect(summarize([300, 280, 620, 310], 2)).toEqual({ median: 305, slow: 1, early: 2, trials: 4 })
+    expect(summarize([], 0).median).toBe(0)
+  })
+  it('needs three tests before it knows the usual speed', async () => {
+    const { usualSpeed } = await import('./reaction')
+    const r = (median: number) => ({ median, slow: 0, early: 0, trials: 14 })
+    expect(usualSpeed({ 1: r(300), 2: r(310) })).toBeNull()
+    expect(usualSpeed({ 1: r(300), 2: r(310), 3: r(290) })).toBe(300)
+  })
+  it('raises an alert when reactions are clearly slower than usual', async () => {
+    const { seedReactions, slowReactions } = await import('./seed')
+    const base = seedEntries()
+    const today = DEMO_DAYS + 1
+    const normal = seedReactions()
+    expect(buildAlerts(base, today, PLACE.transit, normal).map((a) => a.id)).not.toContain('slow-reaction')
+    expect(buildAlerts(base, today, PLACE.transit, slowReactions(normal, today)).map((a) => a.id)).toContain('slow-reaction')
+  })
+})

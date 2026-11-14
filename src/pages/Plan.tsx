@@ -12,14 +12,21 @@ import { BTN_PRIMARY, BTN_QUIET, Card, LABEL, LIST, PageTitle, ROW, SectionTitle
 
 /** Which plan tasks are done today. The health check counts itself when it is saved. */
 function usePlan() {
-  const { todayEntry } = useHealth()
+  const { todayEntry, today, reactions } = useHealth()
   const done = useDoneToday()
   useNow(30_000) // re-check which tasks are due as the clock moves
   const now = clockNow()
-  const isDone = (t: Task) => (t.auto === 'checkin' ? !!todayEntry : done.includes(t.id))
+  const isDone = (t: Task) => (t.auto === 'checkin' ? !!todayEntry : t.auto === 'reaction' ? !!reactions[today] : done.includes(t.id))
   const open = SCHEDULE.filter((t) => !isDone(t))
   // the earliest task still open is what to do next
   return { now, isDone, next: open[0], left: open.length }
+}
+
+/** Tasks that are finished by doing something elsewhere in the app, and where that is. */
+function pageFor(t: Task): { page: Page; label: string } | null {
+  if (t.auto === 'checkin') return { page: 'checkin', label: 'Start check' }
+  if (t.auto === 'reaction') return { page: 'react', label: 'Start test' }
+  return null
 }
 
 /** The single next task, with a one-tap way to finish it. Shown on Today and in the wide side panel. */
@@ -31,12 +38,12 @@ export function NextUp({ go, compact = false }: { go: (p: Page) => void; compact
 
   if (!next) return <p className={`text-sm text-muted ${frame}`}>{tr('Today’s plan is complete.')}</p>
   const due = next.time <= now
-  const check = next.auto === 'checkin'
+  const opens = pageFor(next)
 
   return (
     <div className={frame}>
       <div className="flex items-start gap-3">
-        <span className={`font-mono text-lg tabular-nums ${due ? 'text-accent' : 'text-muted'}`} dir="ltr">{next.time}</span>
+        <span className={`font-mono text-lg tabular-nums ${due ? 'text-accent' : 'text-muted'}`}>{next.time}</span>
         <div className="min-w-0 flex-1">
           {!compact && <div className={LABEL}>{due ? tr('Due now') : tr('Next up')}</div>}
           <div className="font-semibold">{tr(next.label)}</div>
@@ -44,8 +51,8 @@ export function NextUp({ go, compact = false }: { go: (p: Page) => void; compact
         </div>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        <button onClick={() => (check ? go('checkin') : toggleDone(day, next.id))} className={BTN_PRIMARY}>
-          {check ? tr('Start check') : tr('Mark done')}
+        <button onClick={() => (opens ? go(opens.page) : toggleDone(day, next.id))} className={BTN_PRIMARY}>
+          {opens ? tr(opens.label) : tr('Mark done')}
         </button>
         <button onClick={() => go('plan')} className={BTN_QUIET}>{tr('See full plan')}</button>
       </div>
@@ -105,21 +112,21 @@ export default function Plan({ go }: { go: (p: Page) => void }) {
         {SCHEDULE.map((t) => {
           const done = isDone(t)
           const due = !done && t.time <= now
-          const check = t.auto === 'checkin'
+          const opens = pageFor(t)
           return (
             <li key={t.id} className={`flex items-center gap-3 px-4 ${ROW}`}>
-              <span className={`w-12 shrink-0 font-mono text-sm tabular-nums ${due ? 'text-accent' : 'text-muted'}`} dir="ltr">{t.time}</span>
+              <span className={`w-12 shrink-0 font-mono text-sm tabular-nums ${due ? 'text-accent' : 'text-muted'}`}>{t.time}</span>
               <div className="min-w-0 flex-1 py-3">
                 <div className={done ? 'text-muted line-through' : 'font-medium'}>{tr(t.label)}</div>
                 <div className="text-sm text-muted">{tr(t.detail)}</div>
                 {due && <div className="mt-0.5 text-xs font-semibold text-accent">{tr('Due now')}</div>}
               </div>
-              {check && !done ? (
-                <button onClick={() => go('checkin')} className={BTN_QUIET}>{tr('Start check')}</button>
+              {opens && !done ? (
+                <button onClick={() => go(opens.page)} className={BTN_QUIET}>{tr(opens.label)}</button>
               ) : (
                 <button
-                  onClick={() => !check && toggleDone(today, t.id)}
-                  disabled={check}
+                  onClick={() => !opens && toggleDone(today, t.id)}
+                  disabled={!!opens}
                   aria-pressed={done}
                   aria-label={done ? tr('Done') : tr('Mark done')}
                   className="grid size-11 shrink-0 place-items-center"

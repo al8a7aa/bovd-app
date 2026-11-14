@@ -33,12 +33,14 @@ export function useReminders() {
     const check = () => {
       const s = useStore.getState()
       const day = missionDay(s.startDate)
-      const done = s.done[s.activeId]?.[day] ?? []
+      const ticked = s.done[s.activeId]?.[day] ?? []
+      const isDone = (t: (typeof SCHEDULE)[number]) =>
+        t.auto === 'checkin' ? !!s.records[s.activeId]?.[day] : t.auto === 'reaction' ? !!s.reactions?.[s.activeId]?.[day] : ticked.includes(t.id)
       const now = clockNow()
       for (const task of SCHEDULE) {
         const key = `task:${day}:${task.id}`
         // announce in the minute it comes due, not hours later when the app is opened
-        if (task.time === now && !done.includes(task.id) && !announced.has(key)) {
+        if (task.time === now && !isDone(task) && !announced.has(key)) {
           announced.add(key)
           notify(tr(task.label), tr(task.detail))
         }
@@ -70,7 +72,7 @@ export function TimerBar() {
         return (
           <li key={t.id} role={up ? 'alert' : undefined} className={`flex items-center gap-3 rounded-lg border px-3 ${up ? 'border-accent bg-accent/10' : 'border-line bg-panel'}`}>
             <BellRing size={18} className={up ? 'shrink-0 text-accent' : 'shrink-0 text-muted'} aria-hidden />
-            <span className="font-mono text-lg tabular-nums" dir="ltr">
+            <span className="font-mono text-lg tabular-nums">
               {String(Math.floor(left / 60)).padStart(2, '0')}:{String(left % 60).padStart(2, '0')}
             </span>
             <span className="min-w-0 flex-1 py-2 text-sm">

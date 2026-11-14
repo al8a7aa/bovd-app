@@ -5,6 +5,7 @@ import { LIST, PageTitle, ROW } from '../components/ui'
 
 export const ABOUT: Partial<Record<Page, string>> = {
   trends: 'Charts of each reading over time.',
+  react: 'A one-minute test that shows if tiredness is slowing you.',
   report: 'A summary to send to the flight surgeon.',
   ask: 'An AI model that explains your report.',
   journal: 'Private notes that stay on this device.',
@@ -26,7 +27,7 @@ export default function More({ go, items }: { go: (p: Page) => void; items: { id
                 <span className="block font-medium">{tr(label)}</span>
                 <span className="block text-sm text-muted">{tr(ABOUT[id] ?? '')}</span>
               </span>
-              <ChevronRight size={18} className="text-muted rtl:rotate-180" aria-hidden />
+              <ChevronRight size={18} className="text-muted" aria-hidden />
             </button>
           </li>
         ))}

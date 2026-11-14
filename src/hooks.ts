@@ -3,10 +3,11 @@ import { CREW, PLACE } from './data/places'
 import type { Status } from './data/indicators'
 import { buildAlerts, type Alert } from './engine/guidance'
 import { assessEntry, latestEntry, type Entries } from './engine/status'
+import type { Reactions } from './engine/reaction'
 import { missionDay, useStore } from './store'
-import { useLang } from './i18n'
 
 const EMPTY: Entries = {}
+const NO_TESTS: Reactions = {}
 
 export const overallStatus = (alerts: Alert[]): Status =>
   alerts.some((a) => a.level === 'red') ? 'red' : alerts.length ? 'amber' : 'green'
@@ -18,8 +19,7 @@ export function useHealth() {
   const startDate = useStore((s) => s.startDate)
   const placeId = useStore((s) => s.placeId)
   const demo = useStore((s) => s.demo)
-  // alert texts are translated when built, so they must be rebuilt when the language changes
-  const lang = useLang()
+  const reactions = useStore((s) => s.reactions?.[s.activeId] ?? NO_TESTS)
   const today = missionDay(startDate)
   const place = PLACE[placeId]
   const entries = records[activeId] ?? EMPTY
@@ -35,9 +35,10 @@ export function useHealth() {
       latest,
       todayEntry: entries[today],
       assessments: latest ? assessEntry(entries, latest.entry) : {},
-      alerts: buildAlerts(entries, today, place),
+      reactions,
+      alerts: buildAlerts(entries, today, place, reactions),
     }
-  }, [entries, today, place, demo, activeId, lang])
+  }, [entries, today, place, demo, activeId, reactions])
 }
 
 /** One overall status per crew member, for the crew switch. */
@@ -45,15 +46,16 @@ export function useCrewStatus(): { id: string; name: string; status: Status | nu
   const records = useStore((s) => s.records)
   const startDate = useStore((s) => s.startDate)
   const placeId = useStore((s) => s.placeId)
+  const reactions = useStore((s) => s.reactions)
   const today = missionDay(startDate)
 
   return useMemo(
     () =>
       CREW.map((c) => {
         const entries = records[c.id] ?? EMPTY
-        const status = latestEntry(entries, today) ? overallStatus(buildAlerts(entries, today, PLACE[placeId])) : null
+        const status = latestEntry(entries, today) ? overallStatus(buildAlerts(entries, today, PLACE[placeId], reactions?.[c.id])) : null
         return { id: c.id, name: c.name, status }
       }),
-    [records, today, placeId],
+    [records, today, placeId, reactions],
   )
 }

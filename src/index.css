@@ -13,7 +13,7 @@
   --color-ok: #46d39a;
   --color-warn: #f2b441;
   --color-bad: #ff6b6b;
-  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, "Noto Sans Arabic", sans-serif;
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
   --font-mono: "Cascadia Mono", "Cascadia Code", Consolas, ui-monospace, "SF Mono", Menlo, monospace;
 }
 
@@ -46,11 +46,6 @@ input[type="range"],
 input[type="checkbox"],
 input[type="radio"] {
   accent-color: var(--color-accent);
-}
-
-/* Arabic letters join; extra letter spacing breaks the words apart */
-[dir="rtl"] * {
-  letter-spacing: 0 !important;
 }
 
 @keyframes pulse-ring {

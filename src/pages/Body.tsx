@@ -34,8 +34,7 @@ export default function Body({ openTrend }: { openTrend: (id: IndicatorId) => vo
       <PageTitle title={tr('Body map')} sub={tr('Select a body system to see its status, how spaceflight affects it and what protects it.')} />
       <div className="grid gap-3 lg:grid-cols-[300px_1fr]">
         <Card className="flex justify-center self-start">
-          {/* the figure keeps one layout in both languages; only the label text changes */}
-          <svg viewBox="0 0 320 440" className="w-full max-w-72" role="group" aria-label={tr('Body systems')} style={{ direction: 'ltr' }}>
+          <svg viewBox="0 0 320 440" className="w-full max-w-72" role="group" aria-label={tr('Body systems')}>
             <g fill="#141c2b" stroke="#2a384f" strokeWidth="1.5">
               <circle cx="160" cy="48" r="32" />
               <rect x="150" y="76" width="20" height="16" />
@@ -94,10 +93,10 @@ export default function Body({ openTrend }: { openTrend: (id: IndicatorId) => vo
             <h3 className={`mt-4 ${LABEL}`}>{tr('Spaceflight hazard: {hazard}', { hazard: tr(region.hazard) })}</h3>
             <p className="mt-1 text-sm text-muted">{tr(region.inSpace)}</p>
             <p className="mt-2 text-xs text-muted">
-              {tr('NASA health programme (LSAH) system:')} <span dir="ltr">{region.lsah}</span>
+              {tr('NASA health programme (LSAH) system:')} <span>{region.lsah}</span>
             </p>
             <p className="mt-0.5 text-xs text-muted">
-              {tr('NASA risks:')} <span dir="ltr">{region.risks.join(' · ')}</span>
+              {tr('NASA risks:')} <span>{region.risks.join(' · ')}</span>
             </p>
 
             <h3 className={`mt-4 ${LABEL}`}>{tr('Your latest readings')}</h3>

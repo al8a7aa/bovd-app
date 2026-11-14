@@ -7,7 +7,7 @@ import {
 import { buildReport } from '../engine/report'
 import { useDoneToday } from '../store'
 import { useHealth } from '../hooks'
-import { getLang, tr } from '../i18n'
+import { tr } from '../i18n'
 import { BTN_PRIMARY, BTN_QUIET, Card, LABEL, LIST, PageTitle, ROW } from '../components/ui'
 
 export const STARTERS = ['Explain my health status in simple words.', 'What should I do first?', 'Why do these readings matter in space?']
@@ -39,7 +39,7 @@ function savedMode(): Mode {
 }
 
 export default function Helper() {
-  const { entries, today, place, member, alerts } = useHealth()
+  const { entries, today, place, member, alerts, reactions } = useHealth()
   const done = useDoneToday()
   const [mode, setModeState] = useState<Mode>(savedMode)
   const [modelId, setModelId] = useState(loadedModel() ?? chosenModel().id)
@@ -104,8 +104,8 @@ export default function Helper() {
     const history = turns
     const show = (answer: string) => setTurns([...history, { role: 'user', text: q }, { role: 'assistant', text: answer }])
     show('')
-    const report = buildReport({ name: tr(member.name), entries, today, place, alerts, done })
-    const system = systemPrompt(report, alerts, getLang())
+    const report = buildReport({ name: tr(member.name), entries, today, place, alerts, done, reactions })
+    const system = systemPrompt(report, alerts)
     let answer = ''
     try {
       for await (const piece of mode === 'online' ? askOnline(key, system, history, q) : askLocal(system, history, q)) {
@@ -131,7 +131,7 @@ export default function Helper() {
           <div className="mt-3 h-1.5 bg-panel2" role="progressbar" aria-valuenow={Math.round(progress * 100)} aria-valuemin={0} aria-valuemax={100} aria-label={tr('Helper loading progress')}>
             <div className="h-full bg-accent transition-all" style={{ width: `${progress * 100}%` }} />
           </div>
-          <p className="mt-2 font-mono text-sm text-muted" dir="ltr">{Math.round(progress * 100)}%</p>
+          <p className="mt-2 font-mono text-sm text-muted">{Math.round(progress * 100)}%</p>
           <p className="mt-1 text-sm text-muted">{tr('Keep this screen open. The first start takes the longest.')}</p>
         </Card>
       </>
@@ -172,7 +172,7 @@ export default function Helper() {
                 type="password"
                 autoComplete="off"
                 spellCheck={false}
-                dir="ltr"
+               
                 value={keyDraft}
                 onChange={(e) => setKeyDraft(e.target.value)}
                 className="mt-3 h-11 w-full rounded-md border border-line bg-bg px-3 font-mono text-sm"
@@ -275,14 +275,14 @@ export default function Helper() {
           className="h-11 min-w-0 flex-1 rounded-md border border-line bg-panel px-3 text-sm"
         />
         <button type="submit" disabled={busy || !draft.trim()} className={BTN_PRIMARY}>
-          <SendHorizontal size={16} className="rtl:rotate-180" aria-hidden />
+          <SendHorizontal size={16} aria-hidden />
           {busy ? tr('Answering…') : tr('Ask')}
         </button>
       </form>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-muted">
         <span>
-          {tr('Model:')} <span dir="ltr">{mode === 'online' ? ONLINE_MODEL : modelId}</span>
+          {tr('Model:')} <span>{mode === 'online' ? ONLINE_MODEL : modelId}</span>
         </span>
         <span className="flex gap-4">
           {mode === 'online' && (

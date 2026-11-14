@@ -8,10 +8,10 @@ import { tr } from '../i18n'
 import { BTN_PRIMARY, BTN_QUIET, PageTitle } from '../components/ui'
 
 export default function Report() {
-  const { entries, today, place, member, alerts } = useHealth()
+  const { entries, today, place, member, alerts, reactions } = useHealth()
   const done = useDoneToday()
   const [copied, setCopied] = useState<'no' | 'yes' | 'failed'>('no')
-  const text = buildReport({ name: tr(member.name), entries, today, place, alerts, done })
+  const text = buildReport({ name: tr(member.name), entries, today, place, alerts, done, reactions })
 
   const copy = async () => {
     try {

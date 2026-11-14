@@ -1,6 +1,6 @@
 /**
  * How the app ties to NASA's own material. Official NASA names (risks, measures, systems, studies)
- * are kept in English as proper names; the `how` and `what` texts are ours and are translated.
+ * are kept exactly as NASA writes them; the `how` and `what` texts are ours.
  *
  * Read on 14 November 2026 from the pages in SOURCES.
  */
@@ -33,7 +33,7 @@ export const RISKS: NasaRisk[] = [
   { group: 'Human physiology', name: 'Risk of Spaceflight-Induced Bone Changes', coverage: 'partly', how: 'Tracks the countermeasure, daily resistance exercise. Bone density itself needs a scan.' },
   { group: 'Behavioral performance and human factors', name: 'Risk of Behavioral Changes and Psychiatric Disorders', coverage: 'yes', how: 'Daily mood, a low-mood alert, a private journal and a breathing exercise.' },
   { group: 'Behavioral performance and human factors', name: 'Risk of Inadequate Teamwork', coverage: 'no', how: 'The app looks at one person at a time, not at the team.' },
-  { group: 'Behavioral performance and human factors', name: 'Risk of Inadequate Sleep and Irregular Schedules', coverage: 'yes', how: 'Sleep hours against NASA’s 7–9 hours, a sleep-debt alert, and a fixed daily plan.' },
+  { group: 'Behavioral performance and human factors', name: 'Risk of Inadequate Sleep and Irregular Schedules', coverage: 'yes', how: 'Sleep hours against NASA’s 7–9 hours, a sleep-debt alert, a reaction test and a fixed daily plan.' },
   { group: 'Behavioral performance and human factors', name: 'Risk of Inadequate Systems Operations Support', coverage: 'partly', how: 'Gives step-by-step guidance when the ground cannot answer in time. It covers health only, not vehicle systems.' },
   { group: 'Behavioral performance and human factors', name: 'Risk of Injury from Dynamic Loads', coverage: 'no', how: 'A landing risk. The app does not cover landing.' },
   { group: 'Space radiation', name: 'Risk of Radiation-Induced Cancers', coverage: 'yes', how: 'Mission dose estimate against NASA’s 600 mSv career limit, and live solar flare reports.' },
@@ -43,7 +43,7 @@ export const RISKS: NasaRisk[] = [
 export const STANDARD_MEASURES: (Link & { discipline: string })[] = [
   { name: 'Actigraphy', discipline: 'Behavioral Health', coverage: 'partly', how: 'Sleep hours are entered by hand, or copied from a wrist tracker.' },
   { name: 'Sleep Quality / Team Questionnaire', discipline: 'Behavioral Health', coverage: 'partly', how: 'Sleep hours and mood are asked every day. There are no team questions.' },
-  { name: 'Cognition', discipline: 'Behavioral Health', coverage: 'no', how: 'Not yet. A reaction-time self-test is the planned next step.' },
+  { name: 'Cognition', discipline: 'Behavioral Health', coverage: 'partly', how: 'A reaction-time self-test, which is one of the ten tests in NASA’s Cognition battery.' },
   { name: 'Personality Questionnaire', discipline: 'Behavioral Health', coverage: 'no', how: 'Not part of a daily health check.' },
   { name: 'Biochemical Measures', discipline: 'Biochemistry', coverage: 'partly', how: 'Fasting blood sugar only. Other blood tests need a laboratory.' },
   { name: 'Carotid Intima-Media Thickness', discipline: 'Cardiovascular Physiology', coverage: 'no', how: 'Needs ultrasound. The app tracks heart rate and blood pressure instead.' },
@@ -84,6 +84,7 @@ export const NUMBERS: { value: string; what: string; source: string }[] = [
   { value: '1–1.5%', what: 'Bone density lost each month in the spine and hips.', source: 'NASA HRP — Risk of Spaceflight-Induced Bone Changes' },
   { value: '600 mSv', what: 'Career radiation dose limit for every astronaut.', source: 'NASA-STD-3001 Vol. 1 [V1 4030]' },
   { value: '3 mmHg', what: 'Highest average cabin carbon dioxide over one hour.', source: 'NASA-STD-3001 Vol. 2 [V2 6004]' },
+  { value: '3 min', what: 'Length of the Reaction Self-Test crews take on the space station.', source: 'NASA Reaction Self-Test (PVT-B)' },
   { value: '20 min', what: 'Longest one-way communication delay to Mars.', source: 'NASA HRP — Distance from Earth hazard' },
   { value: '70%', what: 'Share of space station astronauts with some swelling at the back of the eye.', source: 'NASA HRP — Risk of SANS' },
 ]

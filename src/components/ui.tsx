@@ -66,7 +66,7 @@ export function ReadinessRing({ score, status }: { score: number; status: Status
   const r = 44
   const around = 2 * Math.PI * r
   return (
-    <svg width="112" height="112" viewBox="0 0 112 112" role="img" aria-label={tr('Readiness {score} out of 100', { score })} style={{ direction: 'ltr' }}>
+    <svg width="112" height="112" viewBox="0 0 112 112" role="img" aria-label={tr('Readiness {score} out of 100', { score })}>
       <circle cx="56" cy="56" r={r} fill="#000" stroke="#1f2a3c" strokeWidth="6" />
       <circle
         cx="56" cy="56" r={r} fill="none" stroke={STATUS_HEX[status]} strokeWidth="6"

@@ -75,8 +75,7 @@ export default function Trends({ id, setId }: { id: IndicatorId; setId: (id: Ind
         {ys.length < 2 ? (
           <p className="py-12 text-center text-sm text-muted">{tr('Log at least two days to see a trend.')}</p>
         ) : (
-          // charts read left-to-right (day 1 on the left) in both languages
-          <div className="h-72" dir="ltr">
+          <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: -12 }}>
                 <CartesianGrid stroke="#1f2a3c" strokeDasharray="2 4" vertical={false} />
@@ -124,9 +123,9 @@ export default function Trends({ id, setId }: { id: IndicatorId; setId: (id: Ind
         <p className="mt-1 text-sm text-muted">{tr(ind.why)}</p>
         <h2 className="mt-3 text-sm font-semibold">{tr('What NASA says')}</h2>
         <p className="mt-1 text-sm text-muted">{tr(ind.nasa)}</p>
-        <p className="mt-1 text-xs text-muted" dir="ltr">{ind.nasaSource}</p>
+        <p className="mt-1 text-xs text-muted">{ind.nasaSource}</p>
         <p className="mt-3 text-xs text-muted">
-          {tr('Normal range from:')} <span dir="ltr">{ind.source}</span>
+          {tr('Normal range from:')} <span>{ind.source}</span>
         </p>
       </Card>
     </>

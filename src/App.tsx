@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Activity, BookOpenCheck, CalendarClock, ClipboardCheck, FileText, Languages, LayoutDashboard, Menu, MessageCircle, NotebookPen, PersonStanding, Rocket } from 'lucide-react'
+import { Activity, BookOpenCheck, CalendarClock, ClipboardCheck, FileText, LayoutDashboard, Menu, MessageCircle, NotebookPen, PersonStanding, Rocket, Zap } from 'lucide-react'
 import type { IndicatorId } from './data/indicators'
 import { useStore } from './store'
 import { useCrewStatus, useHealth } from './hooks'
-import { setLang, tr, useLang } from './i18n'
+import { tr } from './i18n'
 import { delayText } from './engine/physics'
 import { TimerBar, useReminders } from './components/Timers'
 import { LABEL, Logo, STATUS_HEX, STATUS_LABEL, StatusTag } from './components/ui'
@@ -12,6 +12,7 @@ import CheckIn from './pages/CheckIn'
 import Plan, { NextUp } from './pages/Plan'
 import Body from './pages/Body'
 import Trends from './pages/Trends'
+import Reaction from './pages/Reaction'
 import Report from './pages/Report'
 import Helper from './pages/Helper'
 import Journal from './pages/Journal'
@@ -19,7 +20,7 @@ import Mission from './pages/Mission'
 import Nasa from './pages/Nasa'
 import More from './pages/More'
 
-export type Page = 'home' | 'checkin' | 'plan' | 'body' | 'trends' | 'report' | 'ask' | 'journal' | 'nasa' | 'mission' | 'more'
+export type Page = 'home' | 'checkin' | 'plan' | 'body' | 'trends' | 'react' | 'report' | 'ask' | 'journal' | 'nasa' | 'mission' | 'more'
 
 type NavItem = { id: Page; label: string; icon: typeof Activity }
 /** Computer and tablet: every destination in the side rail. */
@@ -29,6 +30,7 @@ const RAIL: NavItem[] = [
   { id: 'plan', label: 'Plan', icon: CalendarClock },
   { id: 'body', label: 'Body', icon: PersonStanding },
   { id: 'trends', label: 'Trends', icon: Activity },
+  { id: 'react', label: 'Reaction test', icon: Zap },
   { id: 'report', label: 'Report', icon: FileText },
   { id: 'ask', label: 'Helper', icon: MessageCircle },
   { id: 'journal', label: 'Journal', icon: NotebookPen },
@@ -43,7 +45,6 @@ const BEHIND_MORE = RAIL.slice(DAILY)
 export default function App() {
   const [page, setPage] = useState<Page>('home')
   const [trendId, setTrendId] = useState<IndicatorId>('hr')
-  const lang = useLang()
   const { today, place, demo } = useHealth()
   const crew = useCrewStatus()
   const activeId = useStore((s) => s.activeId)
@@ -56,25 +57,13 @@ export default function App() {
     setPage('trends')
   }
 
-  // each language is named in its own script so its speakers can find it
-  const langButton = (
-    <button
-      onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
-      lang={lang === 'ar' ? 'en' : 'ar'}
-      className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line px-3 text-sm text-muted hover:text-ink"
-    >
-      <Languages size={16} aria-hidden />
-      {lang === 'ar' ? 'English' : 'العربية'}
-    </button>
-  )
-
   return (
     <div className="flex min-h-full overflow-x-clip">
       {/* computer and tablet: side rail */}
       <nav aria-label={tr('Main')} className="sticky top-0 hidden h-dvh w-56 shrink-0 flex-col overflow-y-auto border-e border-line bg-panel p-3 md:flex print:hidden">
         <div className="px-2 pt-2 pb-6">
           <div className="flex items-center gap-2 text-lg font-semibold tracking-widest">
-            <Logo /> <span dir="ltr">BÖVD</span>
+            <Logo /> <span>BÖVD</span>
           </div>
           <div className="mt-1 font-mono text-xs text-muted">{tr('Mission day {day}', { day: today })}</div>
         </div>
@@ -92,7 +81,6 @@ export default function App() {
             </button>
           )
         })}
-        <div className="mt-auto hidden pt-4 xl:block">{langButton}</div>
       </nav>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -112,8 +100,6 @@ export default function App() {
               </option>
             ))}
           </select>
-          <span className="md:flex-1" />
-          {langButton}
         </header>
 
         <main className="mx-auto w-full max-w-4xl min-w-0 flex-1 px-4 pt-5 pb-24 md:px-8 md:pb-10">
@@ -133,6 +119,7 @@ export default function App() {
           {page === 'plan' && <Plan go={setPage} />}
           {page === 'body' && <Body openTrend={openTrend} />}
           {page === 'trends' && <Trends id={trendId} setId={setTrendId} />}
+          {page === 'react' && <Reaction key={activeId} />}
           {page === 'report' && <Report />}
           {page === 'ask' && <Helper key={activeId} />}
           {page === 'journal' && <Journal key={activeId} />}

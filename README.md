@@ -19,9 +19,8 @@ BÖVD helps an astronaut **check** their own health, **understand** it, and **ac
 - **Trends.** Charts with the normal range shaded and the personal baseline marked.
 - **Daily plan.** A timed schedule with reminders, a streak, levels and badges.
 - **Report for the flight surgeon.** A text summary to copy or print.
-- **Mind.** A breathing exercise and a private journal.
+- **Mind.** A reaction-time self-test, a breathing exercise and a private journal.
 - **AI helper.** Explains the report in simple words. It can run fully on the device (no internet), or online.
-- **English and Arabic**, with a right-to-left layout.
 - **Works offline** after the first visit, and can be installed like an app.
 
 ## Built on NASA resources
@@ -85,7 +84,6 @@ Orbital elements for the Earth–Mars distance are JPL's approximate planetary p
 
 - **Code:** written with an AI coding assistant (Claude Code by Anthropic), under the team's direction.
   Every commit carries a `Co-Authored-By` line for it.
-- **Arabic text:** drafted by the same assistant. The team are native Arabic speakers.
 - **Inside the app:** the optional helper uses an open model run in the browser with WebLLM (Qwen2.5), or the
   Claude API when the user pastes their own key. No key is stored in this repository.
 - No AI-generated images, audio or video are used. No NASA logos or mission emblems are used.
@@ -95,7 +93,7 @@ Orbital elements for the Earth–Mars distance are JPL's approximate planetary p
 ```bash
 npm install
 npm run dev      # start the app
-npm test         # run the rule, physics and translation tests
+npm test         # run the rule and physics tests
 npm run build    # build for hosting; output is in dist/
 ```
 

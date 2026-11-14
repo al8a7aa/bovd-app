@@ -5,6 +5,7 @@ import { tr } from '../i18n'
 import { recentMean, type Alert } from './guidance'
 import { assessEntry, latestEntry, type Entries } from './status'
 import { delayText } from './physics'
+import { isSlower, recentReaction, usualSpeed, type Reactions } from './reaction'
 
 const LABEL: Record<Status, string> = { green: 'Normal', amber: 'Watch', red: 'Act now' }
 const WEEKLY: IndicatorId[] = ['hr', 'sys', 'dia', 'temp', 'sleep', 'exercise', 'water']
@@ -17,10 +18,11 @@ interface Input {
   alerts: Alert[]
   /** ticked step keys for today, e.g. "fever:0" */
   done: string[]
+  reactions?: Reactions
 }
 
 /** Plain-text status report an astronaut can send to the flight surgeon. The journal is never included. */
-export function buildReport({ name, entries, today, place, alerts, done }: Input): string {
+export function buildReport({ name, entries, today, place, alerts, done, reactions = {} }: Input): string {
   const latest = latestEntry(entries, today)
   const out: string[] = [
     tr('HEALTH REPORT — {name}', { name }),
@@ -48,6 +50,18 @@ export function buildReport({ name, entries, today, place, alerts, done }: Input
   for (const id of WEEKLY) {
     const m = recentMean(entries, latest.day, id, 7)
     if (m !== null) out.push(`- ${tr(INDICATOR[id].name)}: ${+m.toFixed(1)} ${tr(INDICATOR[id].unit)}`)
+  }
+
+  const reaction = recentReaction(reactions, today)
+  if (reaction) {
+    const usual = usualSpeed(reactions)
+    const verdict = isSlower(reaction.result, usual) ? tr('Slower than usual') : tr('Usual')
+    out.push('', tr('Reaction test (mission day {day}): {ms} ms, {n} slow responses — {verdict}', {
+      day: reaction.day,
+      ms: reaction.result.median,
+      n: reaction.result.slow,
+      verdict,
+    }))
   }
 
   const symptoms = SYMPTOMS.filter((s) => latest.entry.symptoms.includes(s.id)).map((s) => tr(s.label))

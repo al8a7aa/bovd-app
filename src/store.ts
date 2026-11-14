@@ -2,7 +2,8 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { CREW, type PlaceId } from './data/places'
 import type { Entries, Entry } from './engine/status'
-import { DEMO_DAYS, applyScenario, seedEntries, type ScenarioId } from './engine/seed'
+import type { ReactionResult, Reactions } from './engine/reaction'
+import { DEMO_DAYS, applyScenario, seedEntries, seedReactions, slowReactions, type ScenarioId } from './engine/seed'
 
 function isoDaysAgo(days: number): string {
   const d = new Date()
@@ -40,9 +41,12 @@ interface State {
   timers: Timer[]
   /** private journal text: crew id → mission day → entry. Never leaves the device. */
   journal: Record<string, Record<number, string>>
+  /** reaction-test results, keyed by crew id */
+  reactions: Record<string, Reactions>
   setPlace: (id: PlaceId) => void
   setActive: (id: string) => void
   saveEntry: (day: number, entry: Entry) => void
+  saveReaction: (day: number, result: ReactionResult) => void
   toggleDone: (day: number, key: string) => void
   startTimer: (label: string, minutes: number) => void
   clearTimer: (id: string) => void
@@ -55,6 +59,7 @@ interface State {
 const demoState = () => ({
   startDate: isoDaysAgo(DEMO_DAYS),
   records: Object.fromEntries(CREW.map((c) => [c.id, seedEntries(c.seed, c.hr, c.sleep)])),
+  reactions: Object.fromEntries(CREW.map((c) => [c.id, seedReactions(c.seed)])),
   demo: true,
   done: {},
   timers: [],
@@ -72,6 +77,10 @@ export const useStore = create<State>()(
       saveEntry: (day, entry) => {
         const { records, activeId } = get()
         set({ records: { ...records, [activeId]: { ...records[activeId], [day]: entry } } })
+      },
+      saveReaction: (day, result) => {
+        const { reactions, activeId } = get()
+        set({ reactions: { ...reactions, [activeId]: { ...reactions[activeId], [day]: result } } })
       },
       toggleDone: (day, key) => {
         const { done, activeId } = get()
@@ -94,10 +103,12 @@ export const useStore = create<State>()(
       loadDemo: (scenario) => {
         const fresh = demoState()
         const { activeId } = get()
-        if (scenario) fresh.records[activeId] = applyScenario(fresh.records[activeId], missionDay(fresh.startDate), scenario)
+        const today = missionDay(fresh.startDate)
+        if (scenario) fresh.records[activeId] = applyScenario(fresh.records[activeId], today, scenario)
+        if (scenario === 'sleep') fresh.reactions[activeId] = slowReactions(fresh.reactions[activeId], today)
         set(fresh)
       },
-      startOwnRecord: () => set({ startDate: isoDaysAgo(0), records: {}, demo: false, done: {}, timers: [], journal: {} }),
+      startOwnRecord: () => set({ startDate: isoDaysAgo(0), records: {}, reactions: {}, demo: false, done: {}, timers: [], journal: {} }),
     }),
     { name: 'bovd-app-v1' },
   ),

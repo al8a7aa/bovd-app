@@ -25,7 +25,7 @@ export function RadiationCard({ place, days }: { place: Place; days: number }) {
         {tr('{rate} mSv per day × {days} days. At this rate you reach the limit in {left} more days.', { rate: place.doseRate, days, left: daysLeft })}
       </p>
       <p className="mt-1 text-xs text-muted">
-        {tr('Estimate, not a dosimeter reading. Rate source:')} <span dir="ltr">{place.doseSource}</span>. {tr('Limit: NASA-STD-3001.')}
+        {tr('Estimate, not a dosimeter reading. Rate source:')} <span>{place.doseSource}</span>. {tr('Limit: NASA-STD-3001.')}
       </p>
     </Card>
   )
@@ -103,7 +103,7 @@ export function SpaceWeatherCard() {
     body = (
       <>
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <span className="font-mono text-2xl font-semibold" dir="ltr">{top.classType}</span>
+          <span className="font-mono text-2xl font-semibold">{top.classType}</span>
           <StatusTag status={level} label={tr(label)} />
         </div>
         <p className="mt-1 text-sm text-muted">
@@ -119,7 +119,7 @@ export function SpaceWeatherCard() {
       <h3 className="font-semibold">{tr('Space weather')}</h3>
       {body}
       <p className="mt-2 text-xs text-muted">
-        {tr('Live solar flare data:')} <span dir="ltr">{w.state === 'ok' ? w.source : 'NASA DONKI / NOAA SWPC GOES'}</span>
+        {tr('Live solar flare data:')} <span>{w.state === 'ok' ? w.source : 'NASA DONKI / NOAA SWPC GOES'}</span>
       </p>
     </Card>
   )

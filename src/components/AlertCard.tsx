@@ -30,7 +30,7 @@ export function AlertCard({ alert }: { alert: Alert }) {
         <div className="border-t border-line px-4 pt-3 pb-1">
           <div className={`flex items-center justify-between ${LABEL}`}>
             <span>{tr('Do now')}</span>
-            <span dir="ltr">{doneCount}/{alert.doNow.length}</span>
+            <span>{doneCount}/{alert.doNow.length}</span>
           </div>
           <ul>
             {alert.doNow.map((step, i) => {
@@ -65,7 +65,7 @@ export function AlertCard({ alert }: { alert: Alert }) {
           {alert.escalate}
         </p>
         <p className="mt-2 text-xs text-muted">
-          {tr('Source:')} <span dir="ltr">{alert.source}</span>
+          {tr('Source:')} <span>{alert.source}</span>
         </p>
       </div>
     </article>

@@ -3,6 +3,7 @@ import { SYMPTOMS } from '../data/body'
 import type { Place } from '../data/places'
 import { tr } from '../i18n'
 import { assessEntry, latestEntry, type Entries } from './status'
+import { isSlower, recentReaction, usualSpeed, type Reactions } from './reaction'
 
 /** One action step. `timerMin` is set when the step asks you to measure again after a wait. */
 export interface Step {
@@ -54,7 +55,7 @@ interface Draft {
  * Patterns over several days (sleep debt, missed exercise) are checked first and replace the
  * single-reading alert for the same indicator, so one problem is reported once.
  */
-export function buildAlerts(entries: Entries, today: number, place: Place): Alert[] {
+export function buildAlerts(entries: Entries, today: number, place: Place, reactions: Reactions = {}): Alert[] {
   const latest = latestEntry(entries, today)
   if (!latest) return []
   const { day, entry } = latest
@@ -164,6 +165,31 @@ export function buildAlerts(entries: Entries, today: number, place: Place): Aler
         'Check your urine colour — aim for pale yellow.',
       ],
       source: INDICATOR.water.source,
+    })
+  }
+
+  // Reaction test: a result from today or yesterday that is clearly slower than this person's usual.
+  const reaction = recentReaction(reactions, today)
+  const usual = usualSpeed(reactions)
+  if (reaction && isSlower(reaction.result, usual)) {
+    drafts.push({
+      id: 'slow-reaction',
+      level: 'amber',
+      region: 'brain',
+      title: tr('Slower reactions than your usual'),
+      seen: tr('Your middle reaction time was {ms} ms, with {n} slow responses. Your usual is {usual} ms.', {
+        ms: reaction.result.median,
+        n: reaction.result.slow,
+        usual: usual!,
+      }),
+      why: 'NASA gives station crews a 3-minute reaction self-test, because lost sleep and heavy workload slow reactions before you feel tired.',
+      doNow: [
+        'Rest for 20 minutes if your schedule allows.',
+        'Ask a crewmate to check any safety-critical work.',
+        'Protect a full 8-hour sleep period tonight.',
+        'Repeat the reaction test after resting.',
+      ],
+      source: 'NASA Reaction Self-Test (PVT-B); NASA Standard Measures — Cognition',
     })
   }
 

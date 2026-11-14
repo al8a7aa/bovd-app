@@ -1,4 +1,5 @@
 import type { Entries, Entry } from './status'
+import type { Reactions } from './reaction'
 
 /** Small deterministic generator, so the demo looks the same on every machine. */
 function mulberry32(seed: number) {
@@ -42,6 +43,27 @@ export function seedEntries(seed = 2026, hrBase = 62, sleepBase = 7.4): Entries 
     }
   }
   return entries
+}
+
+/** Simulated reaction-test results to go with the simulated health record. */
+export function seedReactions(seed = 2026): Reactions {
+  const rnd = mulberry32(seed + 1000)
+  const out: Reactions = {}
+  for (let d = 1; d <= DEMO_DAYS; d++) {
+    out[d] = { median: Math.round(295 + (rnd() + rnd() + rnd() - 1.5) * 24), slow: rnd() < 0.15 ? 1 : 0, early: 0, trials: 14 }
+  }
+  return out
+}
+
+/** A week of bad sleep shows up in the reaction test too: slower, with more lapses. */
+export function slowReactions(base: Reactions, today: number): Reactions {
+  const out: Reactions = { ...base }
+  for (let d = Math.max(1, today - 4); d <= today; d++) {
+    // always slow down the original value, so a missing day does not get slowed twice
+    const src = base[d] ?? base[d - 1] ?? { median: 295, slow: 0, early: 0, trials: 14 }
+    out[d] = { ...src, median: Math.round(src.median * 1.22), slow: 3 }
+  }
+  return out
 }
 
 export type ScenarioId = 'fever' | 'sleep' | 'decon'
