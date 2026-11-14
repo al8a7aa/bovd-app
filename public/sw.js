@@ -36,8 +36,18 @@ self.addEventListener('fetch', (event) => {
       (async () => {
         const cache = await caches.open(CACHE)
         try {
-          const fresh = await fetch(req)
-          if (fresh.ok) await cache.put('./', fresh.clone())
+          // 'no-cache' asks the server every time. Without it the browser can keep showing the
+          // page it remembered for several minutes after a new version is published.
+          const fresh = await fetch(req.url, { cache: 'no-cache' })
+          if (fresh.ok) {
+            const html = await fresh.clone().text()
+            await cache.put('./', fresh.clone())
+            // forget the main script and style of older versions; lazily loaded parts are kept
+            const current = new Set([...html.matchAll(/(?:src|href)="(\.\/[^"]+)"/g)].map((m) => new URL(m[1], self.registration.scope).href))
+            for (const saved of await cache.keys()) {
+              if (/\/assets\/index-[^/]+\.(js|css)$/.test(saved.url) && !current.has(saved.url)) await cache.delete(saved)
+            }
+          }
           return fresh
         } catch {
           return (await cache.match('./', { ignoreVary: true })) ?? Response.error()
