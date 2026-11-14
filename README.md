@@ -56,9 +56,9 @@ Other open data and references:
 
 ## Use of AI
 
-- **Code:** written with an AI coding assistant (Claude Code by Anthropic), directed, reviewed and tested by the
-  team. Every commit carries a `Co-Authored-By` line for it.
-- **Arabic text:** drafted by the same assistant and checked by the team, who are native speakers.
+- **Code:** written with an AI coding assistant (Claude Code by Anthropic), under the team's direction.
+  Every commit carries a `Co-Authored-By` line for it.
+- **Arabic text:** drafted by the same assistant. The team are native Arabic speakers.
 - **Inside the app:** the optional helper uses an open model run in the browser with WebLLM (Qwen2.5), or the
   Claude API when the user pastes their own key. No key is stored in this repository.
 - No AI-generated images, audio or video are used. No NASA logos or mission emblems are used.

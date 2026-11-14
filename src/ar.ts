@@ -482,7 +482,7 @@ export const AR: Record<string, string> = {
   "BÖVD was built by team BÖVD (Ibn Al Atheer School, Shinas, Oman) during the NASA Space Apps Challenge 2026. It is a prototype, not a medical device, and it does not diagnose. All data stays on this device.": "بنى فريق BÖVD (مدرسة ابن الأثير، شناص، عُمان) هذا التطبيق خلال تحدي ناسا لتطبيقات الفضاء 2026. هو نموذج أولي وليس جهازًا طبيًا، ولا يقدّم تشخيصًا. كل البيانات تبقى على هذا الجهاز.",
   "The crew data is simulated. Real astronaut vital signs are not public.": "بيانات الطاقم محاكاة. العلامات الحيوية الحقيقية لرواد الفضاء غير منشورة.",
   "Signal delay uses the Earth–Mars distance from Kepler’s equation, solved with Newton’s method.": "تأخر الإشارة يُحسب من المسافة بين الأرض والمريخ باستخدام معادلة كبلر، وتُحل بطريقة نيوتن.",
-  "The code was written with an AI coding assistant (Claude Code), directed and tested by the team.": "كُتب الكود بمساعدة مساعد برمجة بالذكاء الاصطناعي (Claude Code)، بتوجيه الفريق واختباره.",
+  "The code was written with an AI coding assistant (Claude Code), under the team’s direction.": "كُتب الكود بمساعد برمجة بالذكاء الاصطناعي (Claude Code)، بتوجيه من الفريق.",
   "Reference ranges and guidance are based on:": "المديات المرجعية والإرشادات مبنية على:",
   "Charts of each reading over time.": "رسوم بيانية لكل قراءة مع مرور الوقت.",
   "A summary to send to the flight surgeon.": "ملخص ترسله إلى طبيب الرحلة.",

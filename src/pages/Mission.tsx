@@ -92,7 +92,7 @@ export default function Mission() {
         </p>
         <p className="mt-2 text-muted">{tr('The crew data is simulated. Real astronaut vital signs are not public.')}</p>
         <p className="mt-2 text-muted">{tr('Signal delay uses the Earth–Mars distance from Kepler’s equation, solved with Newton’s method.')}</p>
-        <p className="mt-2 text-muted">{tr('The code was written with an AI coding assistant (Claude Code), directed and tested by the team.')}</p>
+        <p className="mt-2 text-muted">{tr('The code was written with an AI coding assistant (Claude Code), under the team’s direction.')}</p>
         <p className="mt-3 text-muted">{tr('Reference ranges and guidance are based on:')}</p>
         <ul className="mt-1 list-disc space-y-0.5 ps-5 text-muted" dir="ltr">
           {sources.map((s) => (
