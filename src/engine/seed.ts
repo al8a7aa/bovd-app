@@ -61,7 +61,7 @@ export function applyScenario(base: Entries, today: number, id: ScenarioId): Ent
   }
   if (id === 'fever') {
     const e = copy(today)
-    Object.assign(e.values, { temp: 38.6, hr: 104, sleep: 6.25, mood: 3, exercise: 60 })
+    Object.assign(e.values, { temp: 38.6, hr: 104, sleep: 6.25 })
     e.symptoms = ['throat', 'fatigue']
     entries[today] = e
   }

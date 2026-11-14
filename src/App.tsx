@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Activity, CalendarClock, ClipboardCheck, FileText, Languages, LayoutDashboard, Menu, NotebookPen, PersonStanding, Rocket } from 'lucide-react'
+import { Activity, CalendarClock, ClipboardCheck, FileText, Languages, LayoutDashboard, Menu, MessageCircle, NotebookPen, PersonStanding, Rocket } from 'lucide-react'
 import type { IndicatorId } from './data/indicators'
 import { useStore } from './store'
 import { useCrewStatus, useHealth } from './hooks'
@@ -13,6 +13,7 @@ import Plan, { NextUp } from './pages/Plan'
 import Body from './pages/Body'
 import Trends from './pages/Trends'
 import Report from './pages/Report'
+import Helper from './pages/Helper'
 import Journal from './pages/Journal'
 import Mission from './pages/Mission'
 import More from './pages/More'
@@ -28,6 +29,7 @@ const RAIL: NavItem[] = [
   { id: 'body', label: 'Body', icon: PersonStanding },
   { id: 'trends', label: 'Trends', icon: Activity },
   { id: 'report', label: 'Report', icon: FileText },
+  { id: 'ask', label: 'Helper', icon: MessageCircle },
   { id: 'journal', label: 'Journal', icon: NotebookPen },
   { id: 'mission', label: 'Mission', icon: Rocket },
 ]
@@ -130,6 +132,7 @@ export default function App() {
           {page === 'body' && <Body openTrend={openTrend} />}
           {page === 'trends' && <Trends id={trendId} setId={setTrendId} />}
           {page === 'report' && <Report />}
+          {page === 'ask' && <Helper key={activeId} />}
           {page === 'journal' && <Journal key={activeId} />}
           {page === 'mission' && <Mission />}
           {page === 'more' && <More go={setPage} items={BEHIND_MORE} />}
