@@ -1,0 +1,11 @@
+{
+  "name": "BÖVD Crew Health",
+  "short_name": "BÖVD",
+  "description": "Health self-check for astronauts on long space missions.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#05070c",
+  "theme_color": "#05070c",
+  "icons": [{ "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
