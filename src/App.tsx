@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Activity, CalendarClock, ClipboardCheck, FileText, Languages, LayoutDashboard, Menu, MessageCircle, NotebookPen, PersonStanding, Rocket } from 'lucide-react'
+import { Activity, BookOpenCheck, CalendarClock, ClipboardCheck, FileText, Languages, LayoutDashboard, Menu, MessageCircle, NotebookPen, PersonStanding, Rocket } from 'lucide-react'
 import type { IndicatorId } from './data/indicators'
 import { useStore } from './store'
 import { useCrewStatus, useHealth } from './hooks'
@@ -16,9 +16,10 @@ import Report from './pages/Report'
 import Helper from './pages/Helper'
 import Journal from './pages/Journal'
 import Mission from './pages/Mission'
+import Nasa from './pages/Nasa'
 import More from './pages/More'
 
-export type Page = 'home' | 'checkin' | 'plan' | 'body' | 'trends' | 'report' | 'ask' | 'journal' | 'mission' | 'more'
+export type Page = 'home' | 'checkin' | 'plan' | 'body' | 'trends' | 'report' | 'ask' | 'journal' | 'nasa' | 'mission' | 'more'
 
 type NavItem = { id: Page; label: string; icon: typeof Activity }
 /** Computer and tablet: every destination in the side rail. */
@@ -31,6 +32,7 @@ const RAIL: NavItem[] = [
   { id: 'report', label: 'Report', icon: FileText },
   { id: 'ask', label: 'Helper', icon: MessageCircle },
   { id: 'journal', label: 'Journal', icon: NotebookPen },
+  { id: 'nasa', label: 'NASA basis', icon: BookOpenCheck },
   { id: 'mission', label: 'Mission', icon: Rocket },
 ]
 /** Phone: the four daily jobs under the thumb, the rest behind "More". */
@@ -134,6 +136,7 @@ export default function App() {
           {page === 'report' && <Report />}
           {page === 'ask' && <Helper key={activeId} />}
           {page === 'journal' && <Journal key={activeId} />}
+          {page === 'nasa' && <Nasa />}
           {page === 'mission' && <Mission />}
           {page === 'more' && <More go={setPage} items={BEHIND_MORE} />}
         </main>

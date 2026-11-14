@@ -24,30 +24,57 @@ BÖVD helps an astronaut **check** their own health, **understand** it, and **ac
 - **English and Arabic**, with a right-to-left layout.
 - **Works offline** after the first visit, and can be installed like an app.
 
-## NASA and partner resources used
+## Built on NASA resources
 
-From the challenge's Resources tab:
+Every part of the app is tied to a NASA source. The app has a screen, **NASA basis**, that shows the link
+for each feature and says plainly what the app does not cover.
 
-- NASA Human Research Program — [5 Hazards of Human Spaceflight](https://www.nasa.gov/hrp/hazards/):
-  the app is organised around these hazards, and uses its facts (for example 1–1.5% bone mineral density loss
-  per month, kidney stone risk from dehydration, the Mars communication delay).
-- NASA Human Research Program — [Risks of Human Spaceflight](https://www.nasa.gov/hrp/risks/):
-  the body systems, symptoms and alerts map to these risks.
+**From the challenge's Resources tab**
+
+- NASA Human Research Program — [5 Hazards of Human Spaceflight](https://www.nasa.gov/hrp/hazards/).
+  The app is organised around these five hazards. Each body system and reading names the hazard behind it.
+- NASA Human Research Program — [Risks of Human Spaceflight](https://www.nasa.gov/hrp/risks/).
+  All 17 NASA risks are listed in the app: 6 are monitored, 6 partly, and 5 are not covered (and it says why).
+- NASA Human Research Program — [Ongoing HRP Research in Space](https://www.nasa.gov/hrp/ongoing-hrp-research/).
+  Features follow studies such as Standard Measures, ARCHeR and Tempus Pro.
 - Canadian Space Agency — [Monitoring Radiation for Astronaut Health](https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp).
 
-Other open data and references:
+**NASA's astronaut health archives**
 
-- NASA DONKI solar flare reports (live), with NOAA SWPC GOES X-ray flare data as a backup.
-- NASA-STD-3001 (600 mSv career radiation limit).
-- Radiation dose rates: Zeitlin et al. 2013 (Mars transit), Hassler et al. 2014 (Mars surface), Zhang et al. 2020 (Moon).
-- Health reference ranges: NEWS2 (Royal College of Physicians, 2017), ACC/AHA blood pressure guideline (2017),
-  ADA Standards of Care in Diabetes, Barger et al. 2014 (sleep in space), Stahn et al. 2017 (body temperature in space).
-- Orbital elements for the Earth–Mars distance: JPL approximate planetary positions.
+- [NASA Standard Measures](https://nlsp.nasa.gov/resources/standard-measures) (Life Sciences Data Archive, LSDA).
+  The daily check is compared, measure by measure, with the nine Standard Measures NASA collects on the space station.
+- [Lifetime Surveillance of Astronaut Health](https://nlsp.nasa.gov/resources/lsah) (LSAH).
+  The body map follows the body systems LSAH keeps under surveillance.
+
+**NASA's own numbers used as targets and limits**
+
+| Number | What it is | NASA source |
+|---|---|---|
+| 7–9 hours | Sleep an adult needs; astronauts average about 6 in space | OCHMO-TB-041, Sleep Accommodations |
+| 2.5 litres | Minimum drinking water per crew member per day | NASA-STD-3001 Vol. 2, Table 6.3-1 [V2 6109] |
+| 1.5 hours | Daily exercise on the space station | HRP — Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness |
+| 1–1.5% | Bone density lost each month | HRP — Risk of Spaceflight-Induced Bone Changes |
+| 600 mSv | Career radiation dose limit | NASA-STD-3001 Vol. 1 [V1 4030] |
+| 3 mmHg | Cabin carbon dioxide limit, one-hour average | NASA-STD-3001 Vol. 2 [V2 6004] |
+| 20 minutes | Longest one-way delay to Mars | HRP — Distance from Earth hazard |
+| 70% | Station astronauts with some swelling at the back of the eye | HRP — Risk of SANS |
+
+**Live NASA data**
+
+- NASA DONKI solar flare reports, with NOAA SWPC GOES X-ray flare data as a backup when DONKI does not answer.
+
+**Where the app does not use NASA**
+
+NASA's public pages give no number limits for heart rate, blood pressure, blood oxygen, temperature or blood
+sugar. For those five readings the app uses published medical ranges and names them on screen:
+NEWS2 (Royal College of Physicians, 2017), the ACC/AHA blood pressure guideline (2017), and the ADA Standards of
+Care in Diabetes. Radiation dose rates come from Zeitlin et al. 2013, Hassler et al. 2014 and Zhang et al. 2020.
+Orbital elements for the Earth–Mars distance are JPL's approximate planetary positions.
 
 ## Honest notes
 
-- **The crew data is simulated.** Real astronaut vital signs are not public. The app labels the demo crew as
-  simulated on every screen.
+- **The crew data is simulated.** NASA keeps each astronaut's health record private; its LSAH programme says
+  records may show "normal" rather than specific values. The app labels the demo crew as simulated on every screen.
 - **This is a prototype, not a medical device.** It does not diagnose.
 - **Health advice comes from fixed rules** with cited sources, not from the AI. The AI helper only explains.
 - **All data stays on the device.** The only exception is the optional online helper, which says so on screen.

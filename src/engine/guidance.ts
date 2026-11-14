@@ -97,7 +97,7 @@ export function buildAlerts(entries: Entries, today: number, place: Place): Aler
       region: 'brain',
       title: tr('Sleep debt is building'),
       seen: tr('You averaged {h} hours of sleep over the last 3 nights.', { h: sleep3.toFixed(1) }),
-      why: 'Several short nights in a row slow your reactions and raise the chance of errors in critical tasks.',
+      why: 'NASA says an adult needs 7–9 hours. Several short nights in a row slow your reactions and raise the chance of errors in critical tasks.',
       doNow: [
         'Protect a full 8-hour sleep period tonight.',
         'No screens for the last hour; dim lights, earplugs and eye mask.',
@@ -136,7 +136,7 @@ export function buildAlerts(entries: Entries, today: number, place: Place): Aler
       level: ex7 < 45 ? 'red' : 'amber',
       region: 'bones',
       title: tr('Bone and muscle loss risk'),
-      seen: tr('You averaged {min} minutes of exercise a day over the last week. The target is 90 or more.', { min: Math.round(ex7) }),
+      seen: tr('You averaged {min} minutes of exercise a day over the last week. NASA’s station crews do 90.', { min: Math.round(ex7) }),
       why: 'Unloaded bones lose about 1–1.5% of their density a month and it comes back slowly, if at all. Exercise is the only protection you carry.',
       doNow: [
         'Do a resistance session today: squats, deadlifts and heel raises.',
@@ -148,14 +148,15 @@ export function buildAlerts(entries: Entries, today: number, place: Place): Aler
   }
 
   const water3 = recentMean(entries, day, 'water', 3)
-  if (water3 !== null && water3 < 2) {
+  // NASA-STD-3001 Vol. 2: at least 2.5 litres of drinking water per crew member per day
+  if (water3 !== null && water3 < 2.5) {
     covered.add('water')
     drafts.push({
       id: 'dehydration',
-      level: water3 < 1.5 ? 'red' : 'amber',
+      level: water3 < 2 ? 'red' : 'amber',
       region: 'gut',
       title: tr('Not drinking enough'),
-      seen: tr('You averaged {l} litres of fluid a day over the last 3 days.', { l: water3.toFixed(1) }),
+      seen: tr('You averaged {l} litres of fluid a day over the last 3 days. NASA’s minimum is 2.5.', { l: water3.toFixed(1) }),
       why: 'Thirst is weak in microgravity. Low fluid with extra calcium in your urine is how kidney stones form — a serious problem far from a hospital.',
       doNow: [
         'Drink 500 ml now.',

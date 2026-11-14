@@ -35,7 +35,7 @@ export function seedEntries(seed = 2026, hrBase = 62, sleepBase = 7.4): Entries 
         glucose: Math.round(88 + noise(6)),
         sleep: Math.max(5.75, round(sleepBase + noise(0.9), 0.25)),
         mood: Math.min(5, Math.max(3, Math.round(4.2 + noise(0.9)))),
-        water: +(2.6 + noise(0.5)).toFixed(1),
+        water: +(3.1 + noise(0.5)).toFixed(1),
         exercise: d % 7 === 0 ? 95 : round(130 + noise(25), 5),
       },
       symptoms,

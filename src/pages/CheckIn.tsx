@@ -108,6 +108,9 @@ export default function CheckIn({ go }: { go: (p: Page) => void }) {
             </ol>
             <h3 className={`mt-4 ${LABEL}`}>{tr('Why it matters in space')}</h3>
             <p className="mt-2 text-sm text-muted">{tr(ind.why)}</p>
+            <h3 className={`mt-4 ${LABEL}`}>{tr('What NASA says')}</h3>
+            <p className="mt-2 text-sm text-muted">{tr(ind.nasa)}</p>
+            <p className="mt-1 text-xs text-muted" dir="ltr">{ind.nasaSource}</p>
           </Card>
 
           <Card className="flex flex-col">

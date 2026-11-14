@@ -26,10 +26,13 @@ export interface Indicator {
   /** also compare against the astronaut's own first-week baseline */
   baseline: boolean
   why: string
+  /** what NASA's own pages and standards say about this reading */
+  nasa: string
+  nasaSource: string
   how: string[]
   low: Advice
   high: Advice
-  /** where the bands and advice come from */
+  /** where the green and amber bands come from: NASA where it publishes a number, a medical reference where it does not */
   source: string
 }
 
@@ -38,6 +41,8 @@ export const MOOD_LABELS = ['', 'Very low', 'Low', 'Okay', 'Good', 'Great']
 export const INDICATORS: Indicator[] = [
   {
     id: 'hr',
+    nasa: 'NASA lists cardiovascular changes as a risk: weightlessness changes how the heart and blood vessels work. Station crews exercise 1.5 hours a day to protect fitness, and still lose 10–12% of it on average.',
+    nasaSource: 'NASA HRP — Risk of Cardiovascular Adaptations; Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness',
     name: 'Resting heart rate',
     unit: 'bpm',
     min: 30, max: 200, step: 1,
@@ -71,6 +76,8 @@ export const INDICATORS: Indicator[] = [
   },
   {
     id: 'sys',
+    nasa: 'NASA says low blood pressure raises the chance of fainting at landing, and advises plenty of fluids and lower-body compression garments before landing.',
+    nasaSource: 'NASA HRP — Risk of Cardiovascular Adaptations',
     name: 'Blood pressure — upper (systolic)',
     unit: 'mmHg',
     min: 70, max: 220, step: 1,
@@ -104,6 +111,8 @@ export const INDICATORS: Indicator[] = [
   },
   {
     id: 'dia',
+    nasa: 'NASA’s astronaut health programme watches heart function, blood pressure and how well each astronaut copes with standing up after flight.',
+    nasaSource: 'NASA LSAH — Cardiovascular',
     name: 'Blood pressure — lower (diastolic)',
     unit: 'mmHg',
     min: 40, max: 130, step: 1,
@@ -127,6 +136,8 @@ export const INDICATORS: Indicator[] = [
   },
   {
     id: 'spo2',
+    nasa: 'NASA limits cabin carbon dioxide to an average of 3 mmHg over one hour, and lists low oxygen as a risk for deep space crews.',
+    nasaSource: 'NASA-STD-3001 Vol. 2 [V2 6004]; NASA HRP — Risk of Hypoxia',
     name: 'Blood oxygen',
     unit: '%',
     min: 80, max: 100, step: 1,
@@ -152,6 +163,8 @@ export const INDICATORS: Indicator[] = [
   },
   {
     id: 'temp',
+    nasa: 'NASA reports that the stress of spaceflight can wake dormant viruses. Station astronauts have reported cold sores, rashes, unusual allergies and infections.',
+    nasaSource: 'NASA HRP — Risk of Altered Immune System Responses',
     name: 'Body temperature',
     unit: '°C',
     min: 34, max: 41, step: 0.1,
@@ -180,6 +193,8 @@ export const INDICATORS: Indicator[] = [
   },
   {
     id: 'glucose',
+    nasa: 'NASA requires every crew member to receive 100% of their calculated energy and nutrient needs, and lists poor nutrition as a risk to health and performance.',
+    nasaSource: 'NASA-STD-3001 Vol. 1 [V1 4020]; NASA HRP — Risk of Inadequate Food and Nutrition',
     name: 'Fasting blood sugar',
     unit: 'mg/dL',
     min: 40, max: 300, step: 1,
@@ -213,13 +228,15 @@ export const INDICATORS: Indicator[] = [
   },
   {
     id: 'sleep',
+    nasa: 'NASA’s sleep brief says an adult needs 7–9 hours, and that astronauts average about 6 hours in space. Station crews see 16 sunrises and sunsets a day.',
+    nasaSource: 'NASA OCHMO-TB-041 Sleep Accommodations; NASA HRP — Risk of Inadequate Sleep and Irregular Schedules',
     name: 'Sleep last night',
     unit: 'h',
     min: 0, max: 14, step: 0.25,
-    green: [7, 9.5], amber: [5.5, 11],
+    green: [7, 9], amber: [5.5, 10.5],
     region: 'brain',
     baseline: false,
-    why: 'There is no natural day and night in space, and noise, workload and excitement cut sleep short. Crews average about 6 hours. Lost sleep slows reactions and raises the chance of mistakes.',
+    why: 'There is no natural day and night in space, and noise, workload and excitement cut sleep short. Astronauts average about 6 hours. Lost sleep slows reactions and raises the chance of mistakes.',
     how: [
       'Count from when you fell asleep to when you woke.',
       'Subtract any long stretches you lay awake.',
@@ -238,10 +255,12 @@ export const INDICATORS: Indicator[] = [
       title: 'You slept much longer than usual',
       doNow: ['Check how you feel: unusual tiredness can signal illness or low mood.', 'Take your temperature.'],
     },
-    source: 'Barger et al., Lancet Neurology (2014); NASA crew sleep schedule',
+    source: 'NASA OCHMO-TB-041 (7–9 hours)',
   },
   {
     id: 'mood',
+    nasa: 'NASA names anxiety and depression as risks of long isolation. It encourages astronauts to keep a regular journal and to talk with family.',
+    nasaSource: 'NASA HRP — Risk of Behavioral Changes and Psychiatric Disorders',
     name: 'Mood today',
     unit: '/ 5',
     min: 1, max: 5, step: 1,
@@ -262,14 +281,16 @@ export const INDICATORS: Indicator[] = [
       ],
     },
     high: { title: 'Mood', doNow: [] },
-    source: 'NASA Human Research Program — behavioral health risk',
+    source: 'NASA HRP — Risk of Behavioral Changes and Psychiatric Disorders',
   },
   {
     id: 'water',
+    nasa: 'NASA requires at least 2.5 litres of drinking water for each crew member every day, and warns that dehydration raises the risk of kidney stones.',
+    nasaSource: 'NASA-STD-3001 Vol. 2 [V2 6109]; NASA HRP — Gravity Fields hazard',
     name: 'Water drunk today',
     unit: 'L',
     min: 0, max: 6, step: 0.1,
-    green: [2, 4], amber: [1.5, 5],
+    green: [2.5, 4.5], amber: [2, 5.5],
     region: 'gut',
     baseline: false,
     why: 'Thirst is weaker in microgravity, so it is easy to drink too little. Bones also release calcium into your urine, and low fluid intake raises the risk of kidney stones.',
@@ -282,10 +303,12 @@ export const INDICATORS: Indicator[] = [
       title: 'You drank a lot',
       doNow: ['Spread fluids through the day and include an electrolyte drink.'],
     },
-    source: 'NASA Human Research Program — gravity fields hazard; NASA nutrition requirements',
+    source: 'NASA-STD-3001 Vol. 2, Table 6.3-1 (2.5 L per day)',
   },
   {
     id: 'exercise',
+    nasa: 'NASA says station astronauts exercise six to seven days a week, with resistance and aerobic training for 1.5 hours a day. Bones still lose 1–1.5% of their density a month.',
+    nasaSource: 'NASA HRP — Risk of Reduced Cardiorespiratory and Musculoskeletal Fitness; Risk of Spaceflight-Induced Bone Changes',
     name: 'Exercise today',
     unit: 'min',
     min: 0, max: 240, step: 5,
@@ -302,7 +325,7 @@ export const INDICATORS: Indicator[] = [
       ],
     },
     high: { title: 'Exercise', doNow: [] },
-    source: 'NASA Human Research Program — gravity fields hazard',
+    source: 'NASA HRP fitness risk page (1.5 hours per day)',
   },
 ]
 

@@ -112,3 +112,21 @@ describe('physics', () => {
     expect(missionDose(PLACE.transit, 100).dose).toBeCloseTo(184)
   })
 })
+
+describe('NASA basis', () => {
+  it('lists all 17 NASA risks and says honestly which are covered', async () => {
+    const { RISKS, coverageCount } = await import('../data/nasa')
+    expect(RISKS).toHaveLength(17)
+    expect(coverageCount(RISKS)).toEqual({ yes: 6, partly: 6, no: 5 })
+  })
+  it('uses NASA’s own numbers for water, sleep and exercise', () => {
+    expect(INDICATOR.water.green[0]).toBe(2.5)
+    expect(INDICATOR.sleep.green).toEqual([7, 9])
+    expect(INDICATOR.exercise.green[0]).toBe(90)
+  })
+  it('flags drinking below NASA’s 2.5 litre minimum', () => {
+    const e: Entries = {}
+    for (let d = 1; d <= 10; d++) e[d] = { values: { water: 2.2 }, symptoms: [] }
+    expect(buildAlerts(e, 10, PLACE.station).map((a) => a.id)).toContain('dehydration')
+  })
+})

@@ -8,6 +8,7 @@ export const ABOUT: Partial<Record<Page, string>> = {
   report: 'A summary to send to the flight surgeon.',
   ask: 'An AI model that explains your report.',
   journal: 'Private notes that stay on this device.',
+  nasa: 'How each part of the app ties to a NASA source.',
   mission: 'Where you are, the five hazards, and demo controls.',
 }
 

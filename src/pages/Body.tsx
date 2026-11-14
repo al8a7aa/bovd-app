@@ -93,6 +93,12 @@ export default function Body({ openTrend }: { openTrend: (id: IndicatorId) => vo
             <p className="mt-2 text-sm">{tr(region.does)}</p>
             <h3 className={`mt-4 ${LABEL}`}>{tr('Spaceflight hazard: {hazard}', { hazard: tr(region.hazard) })}</h3>
             <p className="mt-1 text-sm text-muted">{tr(region.inSpace)}</p>
+            <p className="mt-2 text-xs text-muted">
+              {tr('NASA health programme (LSAH) system:')} <span dir="ltr">{region.lsah}</span>
+            </p>
+            <p className="mt-0.5 text-xs text-muted">
+              {tr('NASA risks:')} <span dir="ltr">{region.risks.join(' · ')}</span>
+            </p>
 
             <h3 className={`mt-4 ${LABEL}`}>{tr('Your latest readings')}</h3>
             <ul className="mt-1">

@@ -1,5 +1,5 @@
 import { HAZARDS, PLACES } from '../data/places'
-import { INDICATORS } from '../data/indicators'
+import { SOURCES } from '../data/nasa'
 import { SCENARIOS } from '../engine/seed'
 import { delayText } from '../engine/physics'
 import { useStore } from '../store'
@@ -7,18 +7,20 @@ import { useHealth } from '../hooks'
 import { tr } from '../i18n'
 import { BTN_QUIET, Card, LIST, PageTitle, ROW, SectionTitle } from '../components/ui'
 
+/** Used only where NASA publishes no number limit, or as a backup. */
 const OTHER_SOURCES = [
-  'NASA Human Research Program — 5 Hazards of Human Spaceflight (nasa.gov/hrp/hazards)',
-  'NASA Human Research Program — Risks of Human Spaceflight (nasa.gov/hrp/risks)',
-  'NASA-STD-3001 — 600 mSv career radiation limit',
-  'NASA DONKI / NOAA SWPC GOES — live solar flare reports',
-  'Canadian Space Agency — Monitoring Radiation for Astronaut Health (2026)',
+  'NEWS2, Royal College of Physicians (2017) — heart rate, blood oxygen, temperature',
+  'ACC/AHA blood pressure guideline (2017)',
+  'ADA Standards of Care in Diabetes — fasting blood sugar',
+  'Stahn et al., Scientific Reports (2017) — body temperature in space',
+  'NOAA SWPC GOES — backup solar flare list',
+  'Zeitlin 2013, Hassler 2014, Zhang 2020 — measured radiation dose rates',
 ]
 
 export default function Mission() {
   const { place, demo } = useHealth()
   const { setPlace, loadDemo, startOwnRecord } = useStore()
-  const sources = [...new Set(INDICATORS.map((i) => i.source)), ...OTHER_SOURCES]
+  const sources = [...SOURCES.map((s) => s.name), ...OTHER_SOURCES]
 
   return (
     <>
@@ -93,7 +95,7 @@ export default function Mission() {
         <p className="mt-2 text-muted">{tr('The crew data is simulated. Real astronaut vital signs are not public.')}</p>
         <p className="mt-2 text-muted">{tr('Signal delay uses the Earth–Mars distance from Kepler’s equation, solved with Newton’s method.')}</p>
         <p className="mt-2 text-muted">{tr('The code was written with an AI coding assistant (Claude Code), under the team’s direction.')}</p>
-        <p className="mt-3 text-muted">{tr('Reference ranges and guidance are based on:')}</p>
+        <p className="mt-3 text-muted">{tr('Built on these NASA sources, with medical references only where NASA gives no number:')}</p>
         <ul className="mt-1 list-disc space-y-0.5 ps-5 text-muted" dir="ltr">
           {sources.map((s) => (
             <li key={s}>{s}</li>

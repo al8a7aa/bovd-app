@@ -122,8 +122,11 @@ export default function Trends({ id, setId }: { id: IndicatorId; setId: (id: Ind
       <Card className="mt-3">
         <h2 className="text-sm font-semibold">{tr('Why we track this')}</h2>
         <p className="mt-1 text-sm text-muted">{tr(ind.why)}</p>
-        <p className="mt-2 text-xs text-muted">
-          {tr('Source:')} <span dir="ltr">{ind.source}</span>
+        <h2 className="mt-3 text-sm font-semibold">{tr('What NASA says')}</h2>
+        <p className="mt-1 text-sm text-muted">{tr(ind.nasa)}</p>
+        <p className="mt-1 text-xs text-muted" dir="ltr">{ind.nasaSource}</p>
+        <p className="mt-3 text-xs text-muted">
+          {tr('Normal range from:')} <span dir="ltr">{ind.source}</span>
         </p>
       </Card>
     </>

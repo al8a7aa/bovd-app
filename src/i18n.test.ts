@@ -8,6 +8,7 @@ import { CREW, HAZARDS, PLACES, SCHEDULE } from './data/places'
 import { SCENARIOS } from './engine/seed'
 import { RANKS, badges, dailyGoals } from './engine/progress'
 import { MODELS } from './engine/helper'
+import { LSAH_SYSTEMS, NUMBERS, RESEARCH, RISKS, STANDARD_MEASURES } from './data/nasa'
 
 /** Words the source scan picks up inside tr(...) calls that are code, not text shown to anyone. */
 const NOT_TEXT = ['red', 'amber', 'green', 'mood', 'local', 'online', 'setup', 'checkin', 'user', 'granted', 'denied', 'unsupported']
@@ -17,7 +18,7 @@ function allTexts(): string[] {
   const out = new Set<string>()
   const add = (...xs: string[]) => xs.forEach((x) => x && out.add(x))
 
-  for (const i of INDICATORS) add(i.name, i.unit, i.why, ...i.how, i.low.title, ...i.low.doNow, i.high.title, ...i.high.doNow)
+  for (const i of INDICATORS) add(i.name, i.unit, i.why, i.nasa, ...i.how, i.low.title, ...i.low.doNow, i.high.title, ...i.high.doNow)
   add(...MOOD_LABELS, ...RANKS)
   for (const r of REGIONS) add(r.name, r.short, r.hazard, r.does, r.inSpace, ...r.protect)
   for (const s of SYMPTOMS) add(s.label)
@@ -29,6 +30,11 @@ function allTexts(): string[] {
   for (const g of dailyGoals(undefined)) add(g.label)
   for (const b of badges({}, 1)) add(b.name, b.how)
   for (const m of MODELS) add(m.name, m.note)
+  // our explanations of NASA's items; NASA's own names stay in English
+  for (const x of [...RISKS, ...STANDARD_MEASURES, ...LSAH_SYSTEMS]) add(x.how)
+  for (const g of new Set(RISKS.map((r) => r.group))) add(g)
+  for (const r of RESEARCH) add(r.what, r.ours)
+  for (const n of NUMBERS) add(n.what)
   // report lines the source scan below cannot pick apart
   add('7-day averages', 'Symptoms: {list}', 'Open findings: {n}', 'Made by the BÖVD prototype. Not a medical record.', ', ')
 
@@ -56,8 +62,11 @@ function allTexts(): string[] {
   }
   walk('src')
   // names of sources and keyboard keys stay as they are
-  const kept = /^(NASA|NOAA|Canadian Space Agency|English$|Enter$)/
-  return [...out].filter((t) => (/[A-Za-z]/.test(t) || t === ', ') && !NOT_TEXT.includes(t) && !kept.test(t))
+  const kept = (t: string) =>
+    /^(NASA DONKI|NOAA SWPC GOES|English$|Enter$)/.test(t) ||
+    (t.includes(' — ') && /^(NASA|NEWS2|ACC\/AHA|ADA|Stahn|Zeitlin|Canadian)/.test(t)) ||
+    /^ACC\/AHA/.test(t)
+  return [...out].filter((t) => (/[A-Za-z]/.test(t) || t === ', ') && !NOT_TEXT.includes(t) && !kept(t))
 }
 
 describe('Arabic translation', () => {

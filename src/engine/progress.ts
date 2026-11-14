@@ -8,7 +8,7 @@ export function dailyGoals(entry: Entry | undefined): { id: string; label: strin
     { id: 'checkin', label: 'Complete today’s health check', done: !!entry },
     { id: 'exercise', label: 'Exercise for 90 minutes or more', done: (v.exercise ?? 0) >= 90 },
     { id: 'sleep', label: 'Sleep 7 hours or more', done: (v.sleep ?? 0) >= 7 },
-    { id: 'water', label: 'Drink 2 litres or more', done: (v.water ?? 0) >= 2 },
+    { id: 'water', label: 'Drink 2.5 litres or more', done: (v.water ?? 0) >= 2.5 },
   ]
 }
 
@@ -66,7 +66,7 @@ export function badges(entries: Entries, today: number): Badge[] {
     { id: 'month', name: 'Mission habit', how: 'Log 30 days in a row', earned: logged >= 30 },
     { id: 'bones', name: 'Iron bones', how: 'Hit the exercise target 7 days in a row', earned: run((e) => (e.values.exercise ?? 0) >= 90) >= 7 },
     { id: 'rest', name: 'Well rested', how: 'Sleep 7 hours or more for 5 nights in a row', earned: run((e) => (e.values.sleep ?? 0) >= 7) >= 5 },
-    { id: 'hydrated', name: 'Hydrated', how: 'Drink 2 litres or more for 7 days in a row', earned: run((e) => (e.values.water ?? 0) >= 2) >= 7 },
+    { id: 'hydrated', name: 'Hydrated', how: 'Drink 2.5 litres or more for 7 days in a row', earned: run((e) => (e.values.water ?? 0) >= 2.5) >= 7 },
     { id: 'green', name: 'All systems go', how: 'Have every indicator in the normal range on one day', earned: allGreen },
   ]
 }
